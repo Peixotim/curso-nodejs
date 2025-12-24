@@ -40,18 +40,20 @@ let DB = {
 
 //Get - All
 app.get('/pokemons' , (req,res) => {
-
-  res.statusCode = 200;
-  res.json(DB.pokemons)
+  if(DB.pokemons.length === 0){
+    return res.status(404).json({
+      message:`There are no Pokémon registered !`
+    })
+  }
+  res.status(200).json(DB.pokemons)
 })
 
-
+//Get One
 app.get('/pokemons/:id' , async (req,res) => {
   const id = parseInt(req.params.id);
 
   if(!id && isNaN(id)){
-    res.statusCode = 400
-    res.json({
+    return res.status(400).json({
       message:`Error , Bad Request !`
     })
   }
@@ -59,22 +61,22 @@ app.get('/pokemons/:id' , async (req,res) => {
   const pokemon = DB.pokemons.find(pokemon => pokemon.id === id)
 
   if(pokemon === undefined){
-    res.status  = 404
-    res.json({
+   return res.status(404).json({
       message:`Pokemon Not Found !`
     })
   }
-  res.json(pokemon)
+
+  res.status(200).json(pokemon)
 })
 
+//Post
 app.post('/pokemons' , (req,res) =>{
   const {id,name,level} = req.body;
 
   if(DB.pokemons.find(pokemon => pokemon.id === id)){
-    res.status = 409
-    res.json({
-      message:`Error , this id already registred !`
-    })
+   return res.status(409).json({
+    message: 'Error, this id already registered!'
+  })
   }
 
   const newPokemon = {
@@ -85,9 +87,33 @@ app.post('/pokemons' , (req,res) =>{
 
   DB.pokemons.push(newPokemon)
 
-  res.status = 201
-  res.json({
+  res.status(201).json({
     message:`Pokemon Created !`,
     pokemon: newPokemon
+  })
+})
+
+//Delete
+
+app.delete('/pokemons/:id' , (req,res) =>{
+  const id = parseInt(req.params.id);
+  
+  const find = DB.pokemons.find(pokemon => pokemon.id === id);
+
+  if(find === undefined){
+    res.status = 404;
+    res.json({
+      message:`Pokemon Not Found !`
+    })
+  }
+
+  let index = DB.pokemons.indexOf(find);
+  
+  DB.pokemons.splice(index,1);
+
+
+  res.status(204).json({
+    message:`Pokemon Deleted`,
+    pokemons : DB.pokemons
   })
 })
