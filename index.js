@@ -117,3 +117,16 @@ app.delete('/pokemons/:id' , (req,res) =>{
     pokemons : DB.pokemons
   })
 })
+
+app.patch('/pokemons/:id',(req,res) =>{
+  const id = req.params.id;
+  const {name,level} = req.body;
+  if(!id){
+    res.json({
+      message:`Id Not Found !`
+    })
+  }
+  const find = DB.pokemons.find(pokemon => pokemon.id === id)
+
+  f
+})
