@@ -40,10 +40,27 @@ let DB = {
 
 //Get - All
 app.get('/pokemons' , (req,res) => {
+  const level = parseInt(req.query.level)
+
   if(DB.pokemons.length === 0){
     return res.status(404).json({
       message:`There are no Pokémon registered !`
     })
+  }
+
+  if(level){
+    const findLevelPokemons = DB.pokemons.find(pokemon => pokemon.level === level);
+    if(!findLevelPokemons){
+      res.status(400)
+      return res.json({
+        message:`Error, pokemon not found !`
+      })
+    }
+    res.status(200);
+    return res.json({
+      pokemons: findLevelPokemons
+    })
+    
   }
   res.status(200).json(DB.pokemons)
 })
@@ -94,7 +111,6 @@ app.post('/pokemons' , (req,res) =>{
 })
 
 //Delete
-
 app.delete('/pokemons/:id' , (req,res) =>{
   const id = parseInt(req.params.id);
   
