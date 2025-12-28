@@ -135,14 +135,41 @@ app.delete('/pokemons/:id' , (req,res) =>{
 })
 
 app.patch('/pokemons/:id',(req,res) =>{
-  const id = req.params.id;
-  const {name,level} = req.body;
-  if(!id){
-    res.json({
+  const id = parseInt(req.params.id);
+  const {name , level} = req.body;
+
+  if(isNaN(id)){
+    res.status(404).json({
       message:`Id Not Found !`
     })
   }
+
+  if(name === undefined && level === undefined){
+    return res.status(400).json({
+      message:`Error , request is empty !`
+    })
+  }
+
+  
   const find = DB.pokemons.find(pokemon => pokemon.id === id)
 
-  f
+  if(!find){
+    return res.status(404).json({
+      message:`Error , pokemon not found !`
+    })
+  }
+
+  if(name){
+    find.name = name
+  }
+  
+  if(level){
+    find.level = level
+  }
+
+  res.status(200).json({
+    message:`The Pokémon's name has been changed`,
+    pokemon : find  
+  })
+
 })
