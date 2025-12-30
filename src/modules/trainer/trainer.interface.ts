@@ -1,9 +1,10 @@
-import { Document, Types } from "mongoose";
+import { Document, Types } from 'mongoose'
 
-export interface Trainer extends Document{
-
-  name: string;
-  age : number;
-  city: string;
-  pokemons?:Types.ObjectId[]
+export interface ITrainer extends Document {
+  uuid: string
+  name: string
+  age: number
+  city: string
+  trofeus?: string[]
+  pokemons?: Types.ObjectId[]
 }
