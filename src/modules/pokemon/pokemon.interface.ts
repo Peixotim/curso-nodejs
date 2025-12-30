@@ -1,7 +1,7 @@
 import { Document, Types } from "mongoose";
 import { PokemonType } from "./pokemon.enum";
 
-export interface Pokemon extends Document{
+export interface IPokemon extends Document{
   uuid : string;
   name : string;
   type : PokemonType;
