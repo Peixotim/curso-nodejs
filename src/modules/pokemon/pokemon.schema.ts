@@ -7,6 +7,7 @@ export const PokemonSchema = new Schema(
       type: String,
       default: uuidv4,
       unique: true,
+      index:true
     },
     name:{
       type : String,
@@ -28,6 +29,6 @@ export const PokemonSchema = new Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 )
