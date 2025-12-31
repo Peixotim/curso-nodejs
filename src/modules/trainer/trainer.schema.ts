@@ -5,6 +5,7 @@ export const TrainerSchema = new Schema({
     type: String,
     default : uuidv4,
     unique:true,
+    index:true
   },
   name:{
     type : String,
