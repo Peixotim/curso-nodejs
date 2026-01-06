@@ -22,6 +22,9 @@ export class PokemonService{
 
   public async get(){
     const pokemons = await PokemonModel.find();
+    if(!pokemons){
+      throw new NotFoundError(`Error : There are no registered Pokémon!`)
+    }
     return pokemons;
   }
 
