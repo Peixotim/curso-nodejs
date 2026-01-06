@@ -65,4 +65,13 @@ export class TrainerService{
 
     return trainer;
   }
+
+  public async findOneBy(uuid : string){
+
+    if(!isUUID(uuid)){
+      throw new BadRequestError("Invalid UUID format");
+    }
+    
+    const pokemon = await TrainerModel.findById(uuid);
+  }
 }
